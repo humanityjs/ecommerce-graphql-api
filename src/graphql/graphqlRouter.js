@@ -3,6 +3,7 @@ import { ApolloServer } from 'apollo-server-express';
 import { merge } from 'lodash';
 import { userTypes } from './types';
 import { userResolvers } from './resolvers';
+import firebase from '@/firebase';
 
 const createServer = (() => {
   const baseSchema = `
@@ -16,6 +17,10 @@ const createServer = (() => {
     resolvers: merge({}, userResolvers)
   });
 
+  const db = firebase.firestore();
+
+  db.settings({ timestampsInSnapshots: true });
+
   return new ApolloServer({
     schema,
     formatError: error => ({
@@ -26,7 +31,8 @@ const createServer = (() => {
       message: error.message.replace('Context creation failed:', '')
     }),
     context: async ({ req }) => ({
-      req
+      req,
+      db
     })
   });
 })();
