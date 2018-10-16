@@ -19,7 +19,10 @@ const createServer = (() => {
   return new ApolloServer({
     schema,
     formatError: error => ({
+      code: error.extensions.code,
       name: error.name,
+      path: error.path,
+      locations: error.locations,
       message: error.message.replace('Context creation failed:', '')
     }),
     context: async ({ req }) => ({
