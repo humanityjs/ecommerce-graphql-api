@@ -16,22 +16,20 @@ enum UserTypes {
 }
 
 type Contact {
-  name: String!
   username: String!
   address: String!
   email: String!
   fullname: String!
-  nationality: Countries!
+  country: Countries!
   phone: Int!
 }
 
 input contactInput {
-  name: String!
   username: String!
   address: String!
   email: String!
   fullname: String!
-  nationality: Countries!
+  country: Countries!
   phone: Int!
   type: UserTypes!
 }
