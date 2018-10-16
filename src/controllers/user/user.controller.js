@@ -1,10 +1,15 @@
-export const getUser = () => ({
-  id: 1,
-  name: 'Bamidele Daniel',
-  username: 'humanityjs',
-  age: 25,
-  address: '1, Random Address, Lagos'
-});
+import protect from '@/controllers/middlewares/protected';
+
+export const getUser = (_, __, ctx) => {
+  const user = protect(ctx.req);
+  return {
+    id: 1,
+    name: 'Bamidele Daniel',
+    username: 'humanityjs',
+    age: 25,
+    address: '1, Random Address, Lagos'
+  };
+};
 
 export const getUsers = () => [
   {

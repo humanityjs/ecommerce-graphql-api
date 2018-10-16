@@ -1,12 +1,84 @@
-type User {
-  id: ID
+enum Countries {
+  Nigeria
+  Ghana
+  Togo
+}
+
+enum Categories {
+  Clothing
+  Electronics
+  Automobile
+}
+
+enum UserTypes {
+  buyer
+  seller
+}
+
+type Contact {
   name: String!
-  age: Int
   username: String!
   address: String!
+  email: String!
+  fullname: String!
+  nationality: Countries!
+  phone: Int!
+}
+
+input contactInput {
+  name: String!
+  username: String!
+  address: String!
+  email: String!
+  fullname: String!
+  nationality: Countries!
+  phone: Int!
+  type: UserTypes!
+}
+
+interface Person {
+  type: UserTypes!
+  contact: Contact!
+}
+
+type Buyer implements Person {
+  id: ID
+  type: UserTypes!
+  contact: Contact!
+}
+
+type Seller implements Person {
+  id: ID
+  type: UserTypes!
+  contact: Contact!
+  shop: Shop!
+}
+
+type Shop {
+  id: ID
+  name: String!
+  address: String
+  phone: Int
+  seller: Seller!
+  products: [Product]!
+}
+
+type Product {
+  id: ID
+  name: String!
+  category: Categories!
+  price: Int
+  description: String!
+  discount: Int
+  size: Int
+  weight: Int
 }
 
 type Query {
-  getUser: User
-  getUsers: [User]
+  getUser(id: ID!): Person!
+  getShop(id: ID!): Shop!
+}
+
+type Mutation {
+  signUp(input: contactInput!): Person
 }
